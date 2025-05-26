@@ -1,0 +1,49 @@
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Rock Paper Scissors ✊✋✌</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"/>
+  <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css"/>
+  <link rel="stylesheet" href="../rock-paper-Scissors/style.css"/>
+</head>
+<body>
+  <div class="container text-center mt-5" data-aos="fade-up">
+    <h1>🤜 Rock Paper Scissors ✌️</h1>
+    <p class="lead">Play against your friend or computer!</p>
+
+    <div class="d-flex justify-content-center my-4">
+      <button class="btn btn-primary me-2" onclick="startGame('friend')">Play with Friend</button>
+      <button class="btn btn-success" onclick="startGame('computer')">Play with Computer</button>
+    </div>
+
+    <div id="gameArea" class="d-none">
+      <div class="row text-center mb-4">
+        <div class="col">
+          <h4>Player 1</h4>
+          <div class="hand" id="player1Hand">❔</div>
+        </div>
+        <div class="col">
+          <h4 id="player2Label">Player 2</h4>
+          <div class="hand" id="player2Hand">❔</div>
+        </div>
+      </div>
+
+      <div id="choices" class="d-flex justify-content-center gap-3">
+        <button class="btn btn-outline-light" onclick="makeMove('rock')">✊ Rock</button>
+        <button class="btn btn-outline-light" onclick="makeMove('paper')">✋ Paper</button>
+        <button class="btn btn-outline-light" onclick="makeMove('scissors')">✌️ Scissors</button>
+      </div>
+
+      <div class="mt-4" id="result" style="font-size: 1.5rem;"></div>
+
+      <button id="playAgainBtn" onclick="resetRound()" class="btn btn-warning mt-3 d-none">🔁 Play Again</button>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+  <script>AOS.init();</script>
+  <script src="../rock-paper-Scissors/script.js"></script>
+</body>
+</html>

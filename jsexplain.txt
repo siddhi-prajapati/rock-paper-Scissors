@@ -1,0 +1,223 @@
+✅ 1. Variable Declarations (Initialization)
+    let gameMode = 'friend';
+    let player1Move = '';
+    let player2Move = '';
+
+    🔍 What this does:
+    gameMode = 'friend': Sets the default game mode to "Friend", meaning two players will play manually.
+
+    player1Move = '': Empty string, used to store Player 1's move (rock, paper, or scissors).
+
+    player2Move = '': Same for Player 2's move, or the computer’s move if in "Computer" mode.
+
+    🧠 Why it's needed:
+    We need these variables to:
+
+    Store current moves made by each player.
+
+    Know whether the game is in "Friend" mode or "Computer" mode.
+
+✅ 2. Function: startGame(mode)
+function startGame(mode) {
+  gameMode = mode;
+  document.getElementById("gameArea").classList.remove("d-none");
+  document.getElementById("result").textContent = '';
+  document.getElementById("player1Hand").textContent = '❔';
+  document.getElementById("player2Hand").textContent = '❔';
+  player1Move = '';
+  player2Move = '';
+  document.getElementById("player2Label").textContent = mode === 'computer' ? 'Computer' : 'Player 2';
+  document.getElementById("playAgainBtn").classList.add("d-none");
+}
+    🔍 What this does:
+    gameMode = mode: Sets the selected mode ('friend' or 'computer') when the game starts.
+    Shows the main game area by removing d-none (Bootstrap class that hides elements).
+    Clears previous results and hand icons.
+    Resets both players' moves.
+    Changes the label to show "Computer" or "Player 2" based on the selected mode.
+    Hides the "Play Again" button if it was visible.
+
+    🧠 Why it's needed:
+    When starting a new game:
+    We need to reset everything.
+    Show the correct labels and empty hands.
+    Prepare the game for fresh moves.
+
+✅ 3. Function: makeMove(choice)
+function makeMove(choice) {
+  if (!player1Move) {
+    player1Move = choice;
+    document.getElementById("player1Hand").textContent = getEmoji(choice);
+
+    if (gameMode === 'computer') {
+      player2Move = getComputerMove();
+      document.getElementById("player2Hand").textContent = getEmoji(player2Move);
+      showResult();
+    } else {
+      document.getElementById("result").textContent = "Player 2, it's your turn!";
+    }
+  } else if (!player2Move && gameMode === 'friend') {
+    player2Move = choice;
+    document.getElementById("player2Hand").textContent = getEmoji(choice);
+    showResult();
+  }
+}
+
+🧩 Step-by-step explanation:
+1.if (!player1Move)
+    Checks if Player 1 has not yet selected a move.
+    If true, it sets player1Move = choice.
+
+2.Displays Player 1’s hand emoji:
+    document.getElementById("player1Hand").textContent = getEmoji(choice);
+
+3.If the game mode is computer:
+    Generate a random move for the computer using getComputerMove().
+    Display computer’s hand emoji.
+    Show the result immediately.
+
+4.If game mode is friend:
+    Wait for Player 2’s move.
+    Show the message: "Player 2, it's your turn!"
+
+
+🧩 Second condition:
+else if (!player2Move && gameMode === 'friend') {
+    Runs when Player 2 hasn’t played yet and the game is in friend mode.
+    Sets Player 2’s move.
+    Shows Player 2's hand emoji.
+    Calls showResult() to decide and display the result.
+
+🧠 Why this function is important:
+    This is the main logic that:
+    Accepts user input.
+    Controls the flow for Player 1 and Player 2.
+    Automatically generates the computer’s move if needed.
+    Makes sure both players get their turn before checking the result.
+
+
+✅ 4. Function: getComputerMove()
+function getComputerMove() {
+  const choices = ['rock', 'paper', 'scissors'];
+  return choices[Math.floor(Math.random() * 3)];
+}
+
+🔍 What this function does:
+    Creates an array of all possible moves: ['rock', 'paper', 'scissors'].
+    Generates a random index between 0 and 2 using:
+
+
+---->>>  Math.floor(Math.random() * 3)
+            Returns one random choice from the array.
+
+🧠 Why it's important:
+This simulates a computer’s move, making the game mode feel real when playing against the system. The move is unpredictable every time, adding fun to the gameplay.
+
+✅ 5. Function: getEmoji(choice)
+function getEmoji(choice) {
+  if (choice === 'rock') return '✊';
+  if (choice === 'paper') return '✋';
+  return '✌️';
+}
+
+🔍 What this function does:
+    Takes a string input (rock, paper, or scissors) and returns the corresponding emoji:
+    'rock' → ✊
+    'paper' → ✋
+    'scissors' → ✌️
+
+🧠 Why it's important:
+    This makes the game visual and fun — instead of just showing text, players see actual hand symbols like in the real rock-paper-scissors game.
+
+
+✅ 6. Function: showResult()
+function showResult() {
+  let resultText = '';
+  if (player1Move === player2Move) {
+    resultText = "It's a Draw! 🤝";
+  } else if (
+    (player1Move === 'rock' && player2Move === 'scissors') ||
+    (player1Move === 'paper' && player2Move === 'rock') ||
+    (player1Move === 'scissors' && player2Move === 'paper')
+  ) {
+    resultText = "Player 1 Wins! 🎉";
+  } else {
+    resultText = gameMode === 'computer' ? "Computer Wins! 🤖" : "Player 2 Wins! 🥳";
+  }
+
+  document.getElementById("result").textContent = resultText;
+  document.getElementById("playAgainBtn").classList.remove("d-none");
+}
+
+🔍 What this function does:
+    1.Initializes an empty message resultText = '' — this will hold the final result.
+
+2.Checks for a draw:
+    if (player1Move === player2Move)
+    If both players chose the same option — show "It's a Draw! 🤝"
+
+3.Checks if Player 1 wins:
+    (player1Move === 'rock' && player2Move === 'scissors') ||
+    (player1Move === 'paper' && player2Move === 'rock') ||
+    (player1Move === 'scissors' && player2Move === 'paper')
+    These are the 3 winning conditions for Player 1.
+
+    If any is true, set the result to "Player 1 Wins! 🎉"
+
+4.Else, Player 2 or Computer wins:
+    resultText = gameMode === 'computer' ? "Computer Wins! 🤖" : "Player 2 Wins! 🥳";
+    Uses a ternary operator to switch between "Computer Wins" or "Player 2 Wins" based on the selected mode.
+
+5.Displays result on the page:
+    document.getElementById("result").textContent = resultText;
+
+6 .Shows the "Play Again" button:
+    document.getElementById("playAgainBtn").classList.remove("d-none");
+    This allows players to play a new round.
+
+🧠 Why it’s important:
+This is the decision-maker. It analyzes the moves of both players, determines the winner, and updates the game interface with the result.
+
+
+✅ 7. Function: resetRound()
+function resetRound() {
+  player1Move = '';
+  player2Move = '';
+  document.getElementById("player1Hand").textContent = '❔';
+  document.getElementById("player2Hand").textContent = '❔';
+  document.getElementById("result").textContent = '';
+  document.getElementById("playAgainBtn").classList.add("d-none");
+}
+
+🔍 What this function does:
+It resets the game state so players can start a new round without reloading the page.
+
+🧩 Step-by-step:
+1.Clear stored moves:
+    player1Move = '';
+    player2Move = '';
+    Empties the choices made by Player 1 and Player 2 from the previous round.
+
+2.Reset hand emojis to default ❔:
+    document.getElementById("player1Hand").textContent = '❔';
+    document.getElementById("player2Hand").textContent = '❔';
+    Visually shows both players are ready to play again.
+
+3.Clear the result message:
+    document.getElementById("result").textContent = '';
+
+4.Hide the Play Again button:
+    document.getElementById("playAgainBtn").classList.add("d-none");
+    Hides the button so it only shows again after the next result.
+
+🧠 Why it’s important:
+    It gives the user a smooth experience — players can play multiple rounds easily by just clicking a button, without any reload or manual reset.
+
+✅ Summary of All Functions Explained:
+Function Name	    Purpose
+startGame(mode) 	Initializes the game mode and UI.
+makeMove(choice)	Handles turn-based gameplay for player(s) and computer.
+getComputerMove()	Randomly selects a move for computer.
+getEmoji(choice)	Converts a move to a hand emoji.
+showResult()	    Compares moves and shows who won.
+resetRound()	    Clears moves, resets UI for next round.
